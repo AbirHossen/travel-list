@@ -1,6 +1,7 @@
 const initialItems = [
   { id: 1, description: "Passports", quantity: 2, packed: false },
   { id: 2, description: "Socks", quantity: 12, packed: true },
+  { id: 3, description: "Charger", quantity: 12, packed: false },
 ];
 
 export default function App() {
@@ -19,10 +20,25 @@ function Logo() {
 }
 
 function Form() {
+  function handleSubmit(e) {
+    // below line will prevent html from loading the whole page which is set to reload as default
+    e.preventDefault();
+  }
+
   return (
-    <div className="add-form">
+    <form className="add-form" onSubmit={handleSubmit}>
       <h3>What do you need for your 😍 trip? </h3>
-    </div>
+      <select>
+        {/* below function will create and iterate through an array with out creating an array before hand */}
+        {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
+          <option value={num} key={num}>
+            {num}
+          </option>
+        ))}
+      </select>
+      <input type="text" placeholder="Item..." />
+      <button>Add</button>
+    </form>
   );
 }
 
@@ -31,7 +47,7 @@ function PackingList() {
     <div className="list">
       <ul>
         {initialItems.map((item) => (
-          <Item item={item} />
+          <Item item={item} key={item.id} />
         ))}
       </ul>
     </div>
